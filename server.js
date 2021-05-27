@@ -9,9 +9,11 @@ app.use(express.urlencoded({extended : false}))
 app.use(express.json())
 
 
-app.get('/reporteRadiobases/:id', async (req, res) => {
+app.get('/reporteRadiobases', async (req, res) => {
     console.log("req",req)
-    const results = await db.getRadiobase(req.params.id)
+    console.log("req query",req.query)
+    debugger
+    const results = await db.getRadiobase(req,res)
     console.log("results",results)
         res.status(200).json({results})
 

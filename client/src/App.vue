@@ -1,17 +1,33 @@
 <template>
   <div id="app">
+  <form onSubmit={mounted}>
+        <input
+          name="firstName"
+          placeholder="First Name"
+          v-model="radiobases"
+        />
+        <br />
+        <input
+          type="date"
+          name="lastName"
+          placeholder="Last Name"
+          v-model="date"
+        />
+        <br />
+        <input type="submit" value="Submit" />
+      </form>
     <table class="table mt-5">
       <thead>
         <tr >
           <th scope="col">Radiobases</th>
-          <td  className="rotate" v-for="item  in  items" :key="item.RADIOBASE" >{{item.FECHA}}</td>
+         <!--<td  className="rotate" v-for="item  in  items" :key="item.FECHA" >{{item.FECHA}}</td>-->
+          <td  className="rotate"  v-for="i in 30" :key="i">{{i}}</td> 
         </tr>
       </thead>
       <tbody>
-        <tr v-for="(item, i)  in  items" :key="item.RADIOBASE">
-          <th v-if="{i == 0}" scope="row">{{items[0].RADIOBASE}}</th>
-          <td v-if="{i == 0}" v-for="item  in  items" :key="item.RADIOBASE">{{item.TRAFICO}}</td>
-          {{++i}}
+        <tr>
+          <th v-for="item  in  items" :key="item.RADIOBASE" scope="row">{{item.RADIOBASE}}</th>
+          <td v-for="item  in  items" :key="item.RADIOBASE">{{item.TRAFICO}}</td>
         </tr>
       </tbody>
     </table>
@@ -19,22 +35,23 @@
 </template>
 <script>
 import axios from "axios"
-//import HelloWorld from './components/HelloWorld.vue'
 
 export default {
   name: 'App',
   components: {
-    //HelloWorld
   },
   data() {
     return {
       items : [
 
-      ]
+      ],
+      date:"2019-09-08",
+      radiobases:"RBZA9931C003"
     }
   },
-    async mounted(){
-      const response = await axios.get('http://localhost:5000/reporteRadiobases/RBZA9931C003')
+    async mounted(req){
+      console.log("aaaaaaaaaa",req)
+      const response = await axios.get('http://localhost:5000/reporteRadiobases?RADIOBASE='+this.radiobases+'&FECHA='+this.date)
       console.log("response",response)
       this.items = response.data.results
     }
