@@ -1,0 +1,32 @@
+{
+  "name": "radiobasesReport",
+  "version": "1.0.0",
+  "description": "Reporte de radiobases",
+  "main": "server.js",
+  "scripts": {
+    "server": "nodemon server.js --ignore 'client/'",
+    "client": "npm run serve --prefix client",
+    "dev": "concurrently \"npm run server\" \"npm run client\""
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/cgdesarrolloapp/radiobasesReport.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/cgdesarrolloapp/radiobasesReport/issues"
+  },
+  "homepage": "https://github.com/cgdesarrolloapp/radiobasesReport#readme",
+  "dependencies": {
+    "cors": "^2.8.5",
+    "dotenv": "^10.0.0",
+    "express": "^4.17.1",
+    "knex": "^0.95.6",
+    "sqlite3": "^5.0.2"
+  },
+  "devDependencies": {
+    "nodemon": "^2.0.7"
+  }
+}
