@@ -98,25 +98,21 @@
   color: #2c3e50;
   margin-top: 60px;
 }
-,
 #tblRadio {
   border: 2px solid black;
 }
-,
 #tblRadio td {
   border: 2px solid black;
 }
-,
 #tblRadio th {
   border: 2px solid black;
 }
-,
 #rotate td {
   -moz-transform: rotate(-90deg); /* FF3.5+ */
   -o-transform: rotate(-90deg); /* Opera 10.5 */
   -webkit-transform: rotate(-90deg); /* Saf3.1+, Chrome */
 }
-,
+
 table,
 th,
 td {
