@@ -8,6 +8,7 @@ app.use(cors())
 app.use(express.urlencoded({extended : false}))
 app.use(express.json())
 
+app.get('/', (req, res) => res.send('backend'))
 
 app.get('/reporteRadiobases', async (req, res) => {
     console.log("req",req)
@@ -28,6 +29,6 @@ app.get('/maestroRadiobases', async (req, res) => {
 })
 
 app.listen(
-    PORT,
+    process.env.PORT || PORT,
     () => console.log('Servidor activo en puerto '+PORT.toString())
 )
