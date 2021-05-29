@@ -70,12 +70,12 @@
           <!--span  v-bind:style="parseInt(i) <= 15 ? coloBG = 'red' : parseInt(i) > 15 && parseInt(i) <= 40 ? coloBG = '#ff8000' : parseInt(i) > 40 && parseInt(i) <= 90 ? colorBg = 'yellow' : parseInt(i) < 90 ? colorBG = 'green' : colorBG = 'grey'"-->
           <td 
             v-bind:id="dynamicId++"
-            v-bind:style="
+            v-bind:style=" [ parseInt(i) <=  15 ? ColorBG = 'red' : parseInt(i) > 15 && parseInt(i) <=40 ? ColorBG = 'orange' : parseInt(i) > 40 && parseInt(i) <= 90 ?  ColorBG = 'yellow' : parseInt(i) > 90  ?  ColorBG = 'green' : ColorBG = 'gray',
             {
               height: '150px',
               border: '1px solid black',
               backgroundColor: ColorBG,
-            }"
+            }]"
 
             v-for="i in Object.values(aDateReport.fechatrafico)"
             :key="i"
@@ -171,7 +171,7 @@ export default {
       aDateReport: { fechatrafico: {} },
       turn: 0.75,
       widthTd: 50,
-      ColorBG: "red",
+      ColorBG: "white",
       IndexId: 0,
     };
   },
