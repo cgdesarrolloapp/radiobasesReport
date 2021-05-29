@@ -4,7 +4,7 @@
   "description": "Reporte de radiobases",
   "main": "server.js",
   "scripts": {
-    "server": "nodemon server.js",
+    "server": "node server.js",
     "start": "concurrently  \"npm run server\""
   },
   "repository": {
