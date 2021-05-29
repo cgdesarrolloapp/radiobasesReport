@@ -1,25 +1,27 @@
 <template>
   <div id="app">
     <form
-    v-bind:style="{ padding: '10px'}"
-    v-on:submit.prevent="onSubmit"
+      v-bind:style="{ padding: '10px' }"
+      v-on:submit.prevent="onSubmit"
       id="appForm">
       <br />
-      <label v-bind:style="{ padding: '10px', margin : '10px'}" >Ingrese Radiobase</label>
+      <label v-bind:style="{ padding: '10px', margin: '10px' }">
+        Ingrese Radiobase</label>
       <br />
       <input
-        v-bind:style="{ padding: '10px', margin : '10px'}"
+        v-bind:style="{ padding: '10px', margin: '10px' }"
         id="inpRadioBase"
         name="RADIOBASES"
         placeholder="Radiobase"
         value="RBZA9931C003"
       />
       <br />
-      <label v-bind:style="{ padding: '10px', margin : '10px'}" >Seleccione Fecha</label>
+      <label v-bind:style="{ padding: '10px', margin: '10px' }"
+        >Seleccione Fecha</label>
       <br />
       <input
         id="dpFecha"
-        v-bind:style="{ padding: '10px', margin : '10px'}"
+        v-bind:style="{ padding: '10px', margin: '10px' }"
         type="date"
         name="FECHA"
         placeholder="Fecha"
@@ -28,6 +30,17 @@
       <br />
       <input type="submit" @click="consultarRadioBase" />
     </form>
+
+    <!--table border="1">
+      <thead>
+        <th>RADIOBASE</th>
+        <th>FECHA</th>
+      </thead>
+      <tr v-for="data in this.items" v-bind:key="data.RADIOBASE">
+        <td>{{ data.RADIOBASE }}</td>
+        <td>{{ data.FECHA }}</td>
+      </tr>
+    </table-->
 
     <table id="tblRadio" class="table mt-5">
       <thead>
@@ -68,22 +81,29 @@
             {{ radiobases }}
           </th>
           <!--span  v-bind:style="parseInt(i) <= 15 ? coloBG = 'red' : parseInt(i) > 15 && parseInt(i) <= 40 ? coloBG = '#ff8000' : parseInt(i) > 40 && parseInt(i) <= 90 ? colorBg = 'yellow' : parseInt(i) < 90 ? colorBG = 'green' : colorBG = 'grey'"-->
-          <td 
+          <td
             v-bind:id="dynamicId++"
-            v-bind:style=" [ parseInt(i) <=  15 ? ColorBG = 'red' : parseInt(i) > 15 && parseInt(i) <=40 ? ColorBG = 'orange' : parseInt(i) > 40 && parseInt(i) <= 90 ?  ColorBG = 'yellow' : parseInt(i) > 90  ?  ColorBG = 'green' : ColorBG = 'gray',
-            {
-              height: '150px',
-              border: '1px solid black',
-              backgroundColor: ColorBG,
-            }]"
-
+            v-bind:style="[
+              parseInt(i) <= 15
+                ? (ColorBG = 'red')
+                : parseInt(i) > 15 && parseInt(i) <= 40
+                ? (ColorBG = 'orange')
+                : parseInt(i) > 40 && parseInt(i) <= 90
+                ? (ColorBG = 'yellow')
+                : parseInt(i) > 90
+                ? (ColorBG = 'green')
+                : (ColorBG = 'gray'),
+              {
+                height: '150px',
+                border: '1px solid black',
+                backgroundColor: ColorBG,
+              },
+            ]"
             v-for="i in Object.values(aDateReport.fechatrafico)"
             :key="i"
-            
           >
             {{ i }}
           </td>
-
         </tr>
       </tbody>
     </table>
@@ -173,30 +193,13 @@ export default {
       widthTd: 50,
       ColorBG: "white",
       IndexId: 0,
+      Radiobases: [],
+      radiobasesMaestro: [],
     };
   },
-  beforemounted() {
-    let oData;
-    let fecha = moment.utc(moment()).endOf("day").format();
-    console.log("fecha", fecha);
-    this.aDateRange.push(moment(fecha).format("YYYY-MM-DD"));
-    for (let step = 0; step < 29; step++) {
-      let diasAtras;
-      diasAtras = moment(fecha)
-        .subtract(step + 1, "days")
-        .format("YYYY-MM-DD");
-      this.aDateRange.push(diasAtras);
-    }
-    if (this.items.length == 0) {
-      oData = {
-        RADIOBASE: "",
-        REGION: "",
-        fechatrafico: {},
-      };
-      this.aDateRange.forEach((date) => {
-        oData.fechatrafico[date] = "";
-      });
-    }
+  beforeMount() {
+    this.initTable();
+    //this.maestroRadioBases();
   },
   mounted() {},
   updated() {
@@ -214,13 +217,13 @@ export default {
         "http://localhost:5000/maestroRadiobases"
       );
       console.log("response", response);
-      this.rb = response.data.results;
+      this.radiobasesMaestro = response.data.results;
     },
     async consultarRadioBase() {
-     // document.getElementById(".tblBody > td") ? document.getElementById(".tblBody > td").remove : document.getElementById(".tblBody > td")
+      // document.getElementById(".tblBody > td") ? document.getElementById(".tblBody > td").remove : document.getElementById(".tblBody > td")
       let sDateP = document.getElementById("dpFecha").value;
       let sRadioBaseInp = document.getElementById("inpRadioBase").value;
-      this.radiobases = [];
+      this.radiobasesMaestro = [];
       this.radiobases = sRadioBaseInp;
       this.date = sDateP;
       this.aDateRange = [];
@@ -229,13 +232,13 @@ export default {
       let fecha = moment.utc(this.date).endOf("day").format();
       console.log("fecha", fecha);
       this.aDateRange.push(moment(fecha).format("YYYY-MM-DD"));
-      for (let step = 0; step < 29; step++) {
+      /*for (let step = 0; step < 29; step++) {
         let diasAtras;
         diasAtras = moment(fecha)
           .subtract(step + 1, "days")
           .format("YYYY-MM-DD");
         this.aDateRange.push(diasAtras);
-      }
+      }*/
       this.aDateRange = this.aDateRange.sort().reverse();
       console.log("this.aDateRange", this.aDateRange);
       const response = await axios.get(
@@ -247,6 +250,7 @@ export default {
       console.log("response", response);
       var oData;
       this.items = response.data.results;
+
       this.items.forEach((item) => {
         oData = {
           RADIOBASE: item.RADIOBASE,
@@ -280,6 +284,61 @@ export default {
       console.log("oData Final", oData.fechatrafico);
       this.aDateReport = oData;
       console.log("Values", Object.values(this.aDateReport.fechatrafico));
+
+      if (this.items.length == 0) {
+        this.initTable();
+      }
+    },
+    async initTable() {
+      //let oData;
+      let fecha = moment.utc(moment()).endOf("day").format();
+      console.log("fecha" + fecha + " " + this.items.length.toString());
+      this.aDateRange.push(moment(fecha).format("YYYY-MM-DD"));
+      for (let step = 0; step < 29; step++) {
+        let diasAtras;
+        diasAtras = moment(fecha)
+          .subtract(step + 1, "days")
+          .format("YYYY-MM-DD");
+        this.aDateRange.push(diasAtras);
+      }
+
+      const response = await axios.get(
+        "http://localhost:5000/reporteRadiobases"
+      );
+      console.log("response", response);
+      this.items = response.data.results;
+     /* if (this.items.length == 0) {
+        oData = {
+          RADIOBASE: "",
+          REGION: "",
+          fechatrafico: {},
+        };
+        this.aDateRange.forEach((date) => {
+          oData.fechatrafico[date] = "";
+        });
+        this.aDateReport = oData;
+        console.log("oData yyyy", oData);
+      } else {
+        this.items.forEach((item) => {
+          oData = {
+            RADIOBASE: item.RADIOBASE,
+            REGION: item.REGION,
+            fechatrafico: {},
+          };
+          this.aDateRange.forEach((date) => {
+            const result = this.items.filter((item1) => item1.FECHA == date);
+            console.log("000 zzzzz", result);
+            if (result.length > 0) {
+              oData.fechatrafico[date] = result[0].TRAFICO;
+            } else {
+              if (!oData.fechatrafico[date]) {
+                oData.fechatrafico[date] = "";
+              }
+            }
+          });
+          console.log("oData", oData);
+        });
+      }*/
     },
   },
 };

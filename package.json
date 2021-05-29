@@ -7,7 +7,7 @@
     "server": "nodemon server.js --ignore 'client/'",
     "clientInstall": "npm run install --prefix client",
     "client": "npm run serve --prefix client",
-    "start":  "\"npm run server\" \"npm run client\""
+    "start": "concurrently  \"npm run server\" \"npm run client\""
   },
   "repository": {
     "type": "git",
@@ -21,6 +21,7 @@
   },
   "homepage": "https://github.com/cgdesarrolloapp/radiobasesReport#readme",
   "dependencies": {
+    "concurrently": "^6.2.0",
     "cors": "^2.8.5",
     "dotenv": "^10.0.0",
     "express": "^4.17.1",
