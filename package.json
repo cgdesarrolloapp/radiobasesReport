@@ -4,8 +4,7 @@
   "description": "Reporte de radiobases",
   "main": "server.js",
   "scripts": {
-    "server": "nodemon server.js --ignore 'client/'",
-    "clientInstall": "npm run install --prefix client",
+    "server": "node server.js --ignore 'client/'",
     "client": "npm run serve --prefix client",
     "start": "concurrently  \"npm run server\" \"npm run client\""
   },
