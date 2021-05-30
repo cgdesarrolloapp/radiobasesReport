@@ -9,13 +9,13 @@ app.use(cors())
 app.use(express.urlencoded({extended : false}))
 app.use(express.json())
 
-app.use(express.static(path.join(__dirname, './client/dist')));
+app.use(express.static(path.join(__dirname, '/client/dist')));
 
 app.get('/', (req,res) => {
-    res.sendFile(path.join(__dirname, './client/dist/'));
+    res.sendFile(path.join(__dirname, '/client/dist/'));
   });
 
-//app.get('/', (req, res) => res.send('backend'))
+app.get('/', (req, res) => res.send('backend'))
 
 app.get('/reporteRadiobases', async (req, res) => {
     console.log("req",req)
