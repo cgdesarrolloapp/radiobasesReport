@@ -17,7 +17,6 @@ function getMaestroRadiobase(req, res){
 }
 
 async function getRadiobase(req, res){
-    console.log("getRadiobase ---",req.query)
     let fecha, radiobase, region 
     req.query.RADIOBASE ? radiobase = req.query.RADIOBASE : radiobase = ''
     req.query.REGION ? region = req.query.REGION : region = ''
@@ -25,11 +24,21 @@ async function getRadiobase(req, res){
     var Dias = 30
     let fechaTo = moment(fecha).subtract(Dias, 'days').format('YYYY-MM-DD')
     console.log(fecha +" getRadiobase - "+fechaTo)
-    //return knex('radiobasesDB').select('*').where('RADIOBASE', 'LIKE', req.query.RADIOBASE, 'AND', 'FECHA','LIKE', fecha)
     if(radiobase || region) { 
-        return knex('radiobasesDB').select('*').where('RADIOBASE', '=', radiobase, 'and', REGION, '=', region, ).whereBetween('FECHA', [fechaTo, fecha]) 
-    }else{ 
-        return knex('radiobasesDB').select('*').whereBetween('FECHA', [fechaTo, fecha])
+        if(region) { 
+            // return knex('radiobasesDB').select((knex.raw('distinct on ("RADIOBASE")').where('RADIOBASE', '=', radiobase, 'and', REGION, '=', region, ).whereBetween('FECHA', [fechaTo, fecha]) 
+            return knex('radiobasesDB').select((knex.raw('distinct on ("RADIOBASE")').where( REGION, '=', region ).whereBetween('FECHA', [fechaTo, fecha]) 
+        } else {
+            return knex('radiobasesDB').select('*').where( RADIOBASE, '=', radiobase ).whereBetween('FECHA', [fechaTo, fecha]) 
+        }
+        
+    } else { 
+        if(radiobase && region) {
+            return knex('radiobasesDB').select('*').where( RADIOBASE, '=', region, 'OR', REGION, '=', region ).whereBetween('FECHA', [fechaTo, fecha]) 
+         }else{
+            return knex('radiobasesDB').select((knex.raw('distinct on ("RADIOBASE")').whereBetween('FECHA', [fechaTo, fecha])
+        }
+        
     }
 
 }
