@@ -8,7 +8,7 @@
     "clientInstall": "npm run install --prefix client",
     "client": "npm run serve --prefix client",
     "clientreact": "npm start --prefix clientreact",
-    "start": "npm run server && (cd clientreact && npm run start)"
+    "start": "\"npm run server\" \"npm run clientreact\""
   },
   "repository": {
     "type": "git",
