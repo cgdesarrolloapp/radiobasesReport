@@ -2,8 +2,11 @@ const knex = require("./knex")
 const moment = require("moment")
 
 function getAllRadiobaseReports(){
-    //return knex('radiobasesDB').select('*').where('FECHA', '<', '2019-09-08').limit(1000)
-    return knex('radiobasesDB').select('*').limit(1000)
+    debugger
+    //return knex('radiobasesDB').select('*').where('FECHA', '<', '2022-08-03').limit(1000)
+    return knex('radiobasesDB').select('*').where('RADIOBASE', '=', 'RB010017C101'  ).limit(1000)
+    //return knex('radiobasesDB').select('*').where('FECHA', '<', '2022-08-03').andWhere('RADIOBASE', '=', 'RB010017C101'  ).limit(1000)
+    //return knex('radiobasesDB').select('*').limit(1000)
 }
 
 function getMaestroRadiobase(req, res){
@@ -17,6 +20,7 @@ function getMaestroRadiobase(req, res){
 }
 
 async function getRadiobase(req, res){
+    console.log("getRadiobase ---",req.params)
     console.log("getRadiobase ---",req.query)
     let fecha = req.query.FECHA ? moment.utc(req.query.FECHA).endOf('day').format() : moment.utc().endOf('day').format() 
     let fecha1 = moment(fecha).format('YYYY-MM-DD')
@@ -24,11 +28,12 @@ async function getRadiobase(req, res){
     var Dias = 30
     let fechaTo = moment(fecha).subtract(Dias, 'days').format('YYYY-MM-DD')
     console.log(fecha1 +" getRadiobase - "+fechaTo)
-    debugger
+    
     //return knex('radiobasesDB').select('*').where('RADIOBASE', 'LIKE', req.query.RADIOBASE, 'AND', 'FECHA','LIKE', fecha)
     //var oquery = knex('radiobasesDB').select('*').where('RADIOBASE', 'LIKE', req.query.RADIOBASE).whereBetween('FECHA', [fechaTo, fecha1])
-    if(req.query.RADIOBASE && fechaTo && fecha1){
-        var oquery = knex('radiobasesDB').select('*').where('RADIOBASE', 'LIKE', req.query.RADIOBASE).whereBetween('FECHA', [fechaTo, fecha1])
+    if(req.params.RADIOBASE && fechaTo && fecha1){
+        console.log("entro")
+        var oquery = knex('radiobasesDB').select('*').where('RADIOBASE', 'LIKE', req.params.RADIOBASE).whereBetween('FECHA', [fechaTo, fecha1])
     }else{
         var oquery = knex('radiobasesDB').select('*').where('RADIOBASE', 'LIKE', "xxxx").whereBetween('FECHA', [fechaTo, fecha1])
     }

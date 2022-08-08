@@ -6,6 +6,8 @@ export default function Row({titulo}){
     //console.log(id)
     console.log("titulo",titulo)
             return (
-                <th>{titulo}</th>
+                <th >
+                    {titulo}
+                    </th>
             )
 }

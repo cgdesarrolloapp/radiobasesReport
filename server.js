@@ -9,9 +9,9 @@ app.use(express.urlencoded({extended : false}))
 app.use(express.json())
 
 //Obtiene registros con parametros Fecha y RADIOBASE
-app.get('/reporteRadiobases', async (req, res) => {
+app.get('/reporteRadiobase/:RADIOBASE', async (req, res) => {
     console.log("req",req)
-    console.log("req query",req.query)
+    console.log("req query",req.params)
     debugger
     const results = await db.getRadiobase(req,res)
     console.log("results",results)
@@ -19,11 +19,11 @@ app.get('/reporteRadiobases', async (req, res) => {
 })
 //Obtiene todos los registros
 app.get('/reporteRadiobasesAll', async (req, res) => {
-    console.log("req",req)
-    console.log("req query",req.query)
+    //console.log("req",req)
+    console.log("req query",req.params)
     debugger
     const results = await db.getAllRadiobaseReports()
-    console.log("results",results)
+    //console.log("results",results)
         res.status(200).json({results})    
 })
 //Obtiene el maestro de radiobases

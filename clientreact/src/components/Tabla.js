@@ -4,7 +4,9 @@ import Header from './Header';
 import getRadioBasesLog from '../services/getRadioBasesLog';
 import style from './style.css'
 
-export default function Tabla(radiobase) {
+export default function Tabla(radiobase1) {
+  debugger
+  var radiobase = radiobase1.params.keyword
   console.log("radiobase", radiobase)
   // const { radiobase } = params
   // console.log("radiobase", radiobase)
@@ -21,11 +23,12 @@ export default function Tabla(radiobase) {
   }, [radiobase])
   //formas de llama componente
   var cont = 0
+  console.log("maestroRadioBases", maestroRadioBases)
   return (
 
     <table>
-      <tbody>
-        <tr>
+      <thead>
+      <tr>
           {
             maestroRadioBases.map(header => {
               cont = cont + 1
@@ -36,9 +39,13 @@ export default function Tabla(radiobase) {
             })
           }
         </tr>
+      </thead>
+      <tbody>
+ 
+ 
         {
           //maestroRadioBases.map(({ id, key, fecha }) =>
-          maestroRadioBases.map(singleGif => <Row key={singleGif.id} {...singleGif} />)
+          maestroRadioBases.map(singleGif => <Row key={singleGif.id}{...singleGif} />)
             /*<Row
               id={id}
               key={id}

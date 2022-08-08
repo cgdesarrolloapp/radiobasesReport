@@ -1,4 +1,9 @@
 table, th, td {
     border: 1px solid;
   }
+
+  th, td, tr {
+    width: 150px;
+    min-width: 100px;
+  }
   
